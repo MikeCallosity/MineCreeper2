@@ -1,14 +1,14 @@
-#include "texture_manager.h"
+#include "texture_manager.hpp"
 
 TextureManager::TextureManager() = default;
 
-sf::Texture TextureManager::retrieve(const char key)
+const sf::Texture& TextureManager::retrieve(const char key) const
 {
-    if (data.find(key) != data.end())
-    {
-        return data[key];
-    }
-    return sf::Texture();
+    auto it = data.find(key);
+    if (it != data.end())
+        return it->second;
+    static const sf::Texture empty;
+    return empty; // or throw
 }
 
 bool TextureManager::load(const string& path, const char key)
